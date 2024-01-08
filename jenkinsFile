@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                sh 'git clone git@github.com:MadiopT/demojenkins.git'
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                // Utiliser la commande Maven pour la compilation uniquement
+                sh 'mvnw.cmd compile'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                // Utiliser la commande Maven pour le packaging
+                sh 'mvnw.cmd package'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'La pipeline s\'est exécutée avec succès.'
+        }
+        failure {
+            echo 'La pipeline a échoué. Veuillez vérifier les étapes précédentes.'
+        }
+    }
+}
